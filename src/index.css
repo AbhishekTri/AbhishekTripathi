@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-bg-primary text-white font-sans antialiased overflow-x-hidden selection:bg-accent-primary selection:text-black;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-lg font-medium transition-all duration-300 transform hover:-translate-y-1;
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-accent-primary to-accent-secondary text-white hover:shadow-[0_0_20px_rgba(0, 240, 255, 0.3)];
+  }
+
+  .btn-outline {
+    @apply border border-white/20 hover:border-accent-primary hover:text-accent-primary hover:bg-white/5;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:border-accent-primary/50 hover:shadow-[0_0_30px_rgba(0, 240, 255, 0.1)];
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500;
+  }
+
+  .text-gradient-primary {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-accent-primary to-accent-secondary;
+  }
+
+  .glass {
+    @apply bg-white/5 backdrop-blur-lg border border-white/10;
+  }
+}
