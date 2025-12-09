@@ -3,6 +3,41 @@ import Section from './Section';
 import { userData } from '../data/user';
 
 const Contact = () => {
+    const [formData, setFormData] = React.useState({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+    });
+    const [isHere, setIsHere] = React.useState(false);
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        // Construct Mailto Link
+        const { name, email, subject, message } = formData;
+        const mailtoLink = `mailto:${userData.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
+
+        // Open Mail Client
+        window.location.href = mailtoLink;
+
+        // Show success state and reset form
+        setIsHere(true);
+        setFormData({
+            name: '',
+            email: '',
+            subject: '',
+            message: ''
+        });
+
+        // Reset success message after 3 seconds
+        setTimeout(() => setIsHere(false), 5000);
+    };
+
     return (
         <Section id="contact" title="Get in Touch">
             <div className="grid md:grid-cols-2 gap-12 items-start relative">
@@ -65,28 +100,61 @@ const Contact = () => {
                 <div className="glass p-8 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-accent-secondary/10 rounded-full blur-[80px] -z-10" />
 
-                    <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+                    <form className="space-y-6" onSubmit={handleSubmit}>
                         <div className="grid md:grid-cols-2 gap-6">
                             <div className="space-y-2">
                                 <label className="text-sm font-mono text-gray-400 ml-1">Name</label>
-                                <input type="text" className="w-full bg-[#0a0a0a] border border-white/10 p-4 rounded-xl focus:outline-none focus:border-accent-primary focus:ring-1 focus:ring-accent-primary/50 transition-all text-white placeholder-gray-600" placeholder="John Doe" />
+                                <input
+                                    type="text"
+                                    name="name"
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                    required
+                                    className="w-full bg-[#0a0a0a] border border-white/10 p-4 rounded-xl focus:outline-none focus:border-accent-primary focus:ring-1 focus:ring-accent-primary/50 transition-all text-white placeholder-gray-600"
+                                    placeholder="John Doe"
+                                />
                             </div>
                             <div className="space-y-2">
                                 <label className="text-sm font-mono text-gray-400 ml-1">Email</label>
-                                <input type="email" className="w-full bg-[#0a0a0a] border border-white/10 p-4 rounded-xl focus:outline-none focus:border-accent-primary focus:ring-1 focus:ring-accent-primary/50 transition-all text-white placeholder-gray-600" placeholder="john@example.com" />
+                                <input
+                                    type="email"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    required
+                                    className="w-full bg-[#0a0a0a] border border-white/10 p-4 rounded-xl focus:outline-none focus:border-accent-primary focus:ring-1 focus:ring-accent-primary/50 transition-all text-white placeholder-gray-600"
+                                    placeholder="john@example.com"
+                                />
                             </div>
                         </div>
                         <div className="space-y-2">
                             <label className="text-sm font-mono text-gray-400 ml-1">Subject</label>
-                            <input type="text" className="w-full bg-[#0a0a0a] border border-white/10 p-4 rounded-xl focus:outline-none focus:border-accent-primary focus:ring-1 focus:ring-accent-primary/50 transition-all text-white placeholder-gray-600" placeholder="Collaboration" />
+                            <input
+                                type="text"
+                                name="subject"
+                                value={formData.subject}
+                                onChange={handleChange}
+                                required
+                                className="w-full bg-[#0a0a0a] border border-white/10 p-4 rounded-xl focus:outline-none focus:border-accent-primary focus:ring-1 focus:ring-accent-primary/50 transition-all text-white placeholder-gray-600"
+                                placeholder="Collaboration"
+                            />
                         </div>
                         <div className="space-y-2">
                             <label className="text-sm font-mono text-gray-400 ml-1">Message</label>
-                            <textarea rows="4" className="w-full bg-[#0a0a0a] border border-white/10 p-4 rounded-xl focus:outline-none focus:border-accent-primary focus:ring-1 focus:ring-accent-primary/50 transition-all text-white placeholder-gray-600" placeholder="Write your message here..." />
+                            <textarea
+                                name="message"
+                                value={formData.message}
+                                onChange={handleChange}
+                                required
+                                rows="4"
+                                className="w-full bg-[#0a0a0a] border border-white/10 p-4 rounded-xl focus:outline-none focus:border-accent-primary focus:ring-1 focus:ring-accent-primary/50 transition-all text-white placeholder-gray-600"
+                                placeholder="Write your message here..."
+                            />
                         </div>
-                        <button className="btn btn-primary w-full py-4 text-lg font-semibold shadow-lg shadow-accent-primary/20 hover:shadow-accent-primary/40">
-                            Send Message
+                        <button type="submit" className="btn btn-primary w-full py-4 text-lg font-semibold shadow-lg shadow-accent-primary/20 hover:shadow-accent-primary/40 relative">
+                            {isHere ? 'Opening Mail Client...' : 'Send Message'}
                         </button>
+                        {isHere && <p className="text-green-400 text-center text-sm mt-2">Form reset! Check your email client drafts.</p>}
                     </form>
                 </div>
             </div>
