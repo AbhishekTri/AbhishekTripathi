@@ -26,7 +26,7 @@ const Navbar = () => {
         >
             <div className="container mx-auto px-6 flex justify-between items-center">
                 <a href="#home" className="text-2xl font-bold font-mono tracking-tighter group">
-                    <span className="group-hover:text-accent-primary transition-colors duration-300">ABHISHEK</span>
+                    <span className="group-hover:text-accent-primary transition-colors duration-300">AT</span>
                     <span className="text-accent-primary group-hover:text-white transition-colors duration-300">.</span>
                 </a>
 
